@@ -20,7 +20,7 @@ default:
 
 base-linters:
   <<: *allowed_branches
-  image: localhost:5000/python-poetry
+  image: localhost:8000/python-poetry
   stage: linters
   script:
     - *generate_env_file
@@ -29,7 +29,7 @@ base-linters:
 
 bandit:
   <<: *allowed_branches
-  image: localhost:5000/python-poetry
+  image: localhost:8000/python-poetry
   stage: sast
   needs:
     - base-linters
@@ -40,7 +40,7 @@ bandit:
 
 dlint:
   <<: *allowed_branches
-  image: localhost:5000/python-poetry
+  image: localhost:8000/python-poetry
   stage: sast
   script:
     - *generate_env_file
@@ -50,7 +50,7 @@ dlint:
 
 unit-tests:
   <<: *allowed_branches
-  image: localhost:5000/python-poetry
+  image: localhost:8000/python-poetry
   stage: tests
   needs:
     - bandit

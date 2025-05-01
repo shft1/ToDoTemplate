@@ -3,6 +3,7 @@ name = "Python FastAPI template"
 version = "2.1.0"
 description = "My personal best practice of archtecture in fastapi projects"
 authors = ["AlanLatte <alan.latte.dev@gmail.com>"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.9"
