@@ -20,6 +20,7 @@ from app.pkg.models.exceptions import (
     partners,
     skill,
     skill_levels,
+    tasks,
 )
 
 __all__ = [
@@ -30,6 +31,7 @@ __all__ = [
     "direction_router",
     "skill_router",
     "skill_levels_router",
+    "tasks_router",
 ]
 
 city_router = APIRouter(
@@ -100,6 +102,15 @@ partners_router = APIRouter(
 )
 
 
+tasks_router = APIRouter(
+    prefix='/tasks',
+    tags=["Tasks"],
+    responses={
+        **tasks.TaskNotFound.generate_openapi(),
+    },
+)
+
+
 __routes__ = Routes(
     routers=(
         skill_router,
@@ -109,5 +120,6 @@ __routes__ = Routes(
         country_router,
         contacts_router,
         partners_router,
+        tasks_router,
     ),
 )

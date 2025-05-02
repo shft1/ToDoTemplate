@@ -58,3 +58,12 @@ from app.pkg.models.app.skill_levels import (
     SkillLevel,
     UpdateSkillLevelCommand,
 )
+
+
+from app.pkg.models.app.tasks import (
+    CreateTasksCommand,
+    DeleteTasksCommand,
+    ReadTasksQuery,
+    Tasks,
+    UpdateTasksCommand
+)

@@ -9,6 +9,7 @@ from app.internal.repository.postgresql.direction import DirectionRepository
 from app.internal.repository.postgresql.partners import PartnerRepository
 from app.internal.repository.postgresql.skill import SkillRepository
 from app.internal.repository.postgresql.skill_levels import SkillLevelRepository
+from app.internal.repository.postgresql.tasks import TaskRepository
 
 
 class Repositories(containers.DeclarativeContainer):
@@ -21,3 +22,4 @@ class Repositories(containers.DeclarativeContainer):
     country_repository = providers.Factory(CountryRepository)
     contacts_repository = providers.Factory(ContactsRepository)
     partner_repository = providers.Factory(PartnerRepository)
+    tasks_repository = providers.Factory(TaskRepository)
