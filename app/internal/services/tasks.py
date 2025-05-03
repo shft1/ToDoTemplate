@@ -1,5 +1,6 @@
 """Service for manage tasks"""
 
+
 import typing
 
 from app.pkg import models
@@ -31,7 +32,7 @@ class TaskService:
             Tasks: Created task
         """
         return await self.repository.create(cmd=cmd)
-    
+
     async def read_task(self, query: models.ReadTasksQuery) -> models.Tasks:
         """Read task
 
@@ -45,7 +46,7 @@ class TaskService:
             return await self.repository.read(query=query)
         except EmptyResult as e:
             raise TaskNotFound from e
-    
+
     async def read_all_tasks(self) -> typing.List[models.Tasks]:
         """Read all tasks
 
@@ -56,8 +57,8 @@ class TaskService:
             return await self.repository.read_all()
         except EmptyResult as e:
             raise TaskNotFound from e
-    
-    async def update_task(self, cmd: models.UpdateTasksCommand) -> models.Tasks:
+
+    async def update_task(self, id: int, cmd: models.UpdateTasksCommand) -> models.Tasks:
         """Update task
         
         Args:
@@ -66,7 +67,7 @@ class TaskService:
         Returns:
             Tasks: Updated task
         """
-        return await self.repository.update(cmd=cmd)
+        return await self.repository.update(id=id, cmd=cmd)
 
     async def delete_task(self, cmd: models.DeleteTasksCommand) -> models.Tasks:
         """Delete task

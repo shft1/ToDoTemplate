@@ -1,5 +1,6 @@
 """Repository for tasks"""
 
+
 from typing import List
 
 from app.pkg import models
@@ -57,7 +58,7 @@ class TaskRepository(Repository):
 
 
     @collect_response
-    async def update(self, cmd: models.UpdateTasksCommand) -> models.Tasks:
+    async def update(self, id: int, cmd: models.UpdateTasksCommand) -> models.Tasks:
         q = """
             update tasks
             set
@@ -65,11 +66,11 @@ class TaskRepository(Repository):
                 description = coalesce(%(description)s, description),
                 data_finish = coalesce(%(data_finish)s, data_finish),
                 status = coalesce(%(status)s, status)
-            where id = %()s
+            where id = %(id)s
             returning *;
         """
         async with get_connection() as cur:
-            await cur.execute(q, cmd.to_dict())
+            await cur.execute(q, cmd.to_dict(), id=id)
             return cur.fetchone()
 
     

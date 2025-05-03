@@ -10,6 +10,7 @@ from app.internal.services.direction import DirectionService
 from app.internal.services.partners import PartnerService
 from app.internal.services.skill import SkillService
 from app.internal.services.skill_levels import SkillLevelService
+from app.internal.services.tasks import TaskService
 
 
 class Services(containers.DeclarativeContainer):
@@ -52,4 +53,9 @@ class Services(containers.DeclarativeContainer):
     partner_service = providers.Factory(
         PartnerService,
         partner_repository=repositories.partner_repository,
+    )
+
+    task_service = providers.Factory(
+        TaskService,
+        task_repository=repositories.tasks_repository
     )

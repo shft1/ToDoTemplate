@@ -84,7 +84,7 @@ class CreateTasksCommand(_TasksCommand):
 
 
 class UpdateTasksCommand(_TasksCommand):
-    ...
+    id: PositiveInt = TaskLevelFields.id
 
 
 class DeleteTasksCommand(BaseTaskLevel):
