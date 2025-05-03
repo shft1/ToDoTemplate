@@ -1,9 +1,10 @@
 """Routers for CRUD of tasks levels."""
 
+
 from typing import List
 
 from dependency_injector.wiring import Provide, inject
-from fastapi import Depends, status
+from fastapi import Depends, status, Query
 
 from app.internal.routes import tasks_router
 from app.internal.services import Services
@@ -19,9 +20,14 @@ from app.pkg import models
 )
 @inject
 async def read_all_tasks(
+    by_timeline: bool = Query(False, description="Сортировка по сроку"),
+    by_status: bool = Query(False, description="Сортировка по статусу"),
     task_service: TaskService = Depends(Provide[Services.task_service])
 ):
-    return await task_service.read_all_tasks()
+    return await task_service.read_all_tasks(
+        by_timeline=by_timeline,
+        by_status=by_status
+    )
 
 
 @tasks_router.get(
@@ -53,24 +59,23 @@ async def create_task(
 
 
 @tasks_router.patch(
-    "/{task_id:int}",
+    "/",
     response_model=models.Tasks,
     status_code=status.HTTP_200_OK,
     description="Update task"
 )
 @inject
 async def update_task(
-    task_id: int,
     cmd: models.UpdateTasksCommand,
     task_service: TaskService = Depends(Provide[Services.task_service])
 ):
-    return await task_service.update_task(id=task_id, cmd=cmd)
+    return await task_service.update_task(cmd=cmd)
 
 
 @tasks_router.delete(
     "/{task_id:int}/",
     response_model=models.Tasks,
-    status_code=status.HTTP_204_NO_CONTENT,
+    status_code=status.HTTP_200_OK,
     description="Delete task"
 )
 @inject

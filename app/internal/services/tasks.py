@@ -47,18 +47,21 @@ class TaskService:
         except EmptyResult as e:
             raise TaskNotFound from e
 
-    async def read_all_tasks(self) -> typing.List[models.Tasks]:
+    async def read_all_tasks(self, by_timeline, by_status) -> typing.List[models.Tasks]:
         """Read all tasks
 
         Returns:
             List[Tasks]: Read all tasks
         """
         try:
-            return await self.repository.read_all()
+            return await self.repository.read_all(
+                by_timeline=by_timeline,
+                by_status=by_status
+            )
         except EmptyResult as e:
             raise TaskNotFound from e
 
-    async def update_task(self, id: int, cmd: models.UpdateTasksCommand) -> models.Tasks:
+    async def update_task(self, cmd: models.UpdateTasksCommand) -> models.Tasks:
         """Update task
         
         Args:
@@ -67,7 +70,7 @@ class TaskService:
         Returns:
             Tasks: Updated task
         """
-        return await self.repository.update(id=id, cmd=cmd)
+        return await self.repository.update(cmd=cmd)
 
     async def delete_task(self, cmd: models.DeleteTasksCommand) -> models.Tasks:
         """Delete task

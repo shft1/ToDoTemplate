@@ -31,12 +31,19 @@ class TaskRepository(Repository):
         
 
     @collect_response
-    async def read_all(self) -> List[models.Tasks]:
+    async def read_all(self, by_timeline, by_status) -> List[models.Tasks]:
         q = """
             select
                 *
             from tasks
         """
+        if by_timeline and by_status:
+            q += " order by (data_finish - data_create), status"
+        elif by_timeline:
+            q += " order by (data_finish - data_create)"
+        elif by_status:
+            q += " order by status"
+
         async with get_connection() as cur:
             await cur.execute(q)
             return await cur.fetchall()
@@ -58,7 +65,7 @@ class TaskRepository(Repository):
 
 
     @collect_response
-    async def update(self, id: int, cmd: models.UpdateTasksCommand) -> models.Tasks:
+    async def update(self, cmd: models.UpdateTasksCommand) -> models.Tasks:
         q = """
             update tasks
             set
@@ -70,8 +77,8 @@ class TaskRepository(Repository):
             returning *;
         """
         async with get_connection() as cur:
-            await cur.execute(q, cmd.to_dict(), id=id)
-            return cur.fetchone()
+            await cur.execute(q, cmd.to_dict())
+            return await cur.fetchone()
 
     
     @collect_response

@@ -1,8 +1,10 @@
 """Validators for tasks model."""
 
-from app.pkg.models.base import BaseEnum
-from datetime import datetime
+
 from typing import Optional
+from datetime import datetime
+
+from app.pkg.models.base import BaseEnum
 
 
 class Status(str, BaseEnum):
@@ -11,8 +13,8 @@ class Status(str, BaseEnum):
     READY = "ready"
 
 
-def is_correct_data_finish(value: Optional[datetime]):
-    if value and value < datetime.now():
+def is_correct_data_finish(value: Optional[float]):
+    if value and datetime.fromtimestamp(value) < datetime.now():
         raise ValueError(
             f"Дата окончания задачи {value} не может быть раньше текущей!"
         )
@@ -20,7 +22,7 @@ def is_correct_data_finish(value: Optional[datetime]):
 
 
 def is_status_in_enum(value: Optional[str]):
-    if value and value not in Status:
+    if value and value not in (status.value for status in Status):
         raise ValueError(
             f"Статус {value} должен быть равен "
             f"одному из следующих значений: "
